@@ -1,0 +1,67 @@
+<div class="bg-gray-900 min-h-screen text-white flex flex-col">
+  <ul class="flex-grow" *ngIf="!isCollapsed">
+    <li
+      routerLink="/dashboard"
+      class="px-6 py-2 hover:bg-blue-800 cursor-pointer"
+    >
+      <a>Dashboard</a>
+    </li>
+    <li
+      routerLink="/transactions"
+      class="px-6 py-2 hover:bg-blue-800 cursor-pointer"
+    >
+      <a>Transactions</a>
+    </li>
+    <li
+      routerLink="/budgets"
+      class="px-6 py-2 hover:bg-blue-800 cursor-pointer"
+    >
+      <a>Budgets</a>
+    </li>
+    <li routerLink="/goals" class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a>Goals</a>
+    </li>
+    <li
+      routerLink="/analytics"
+      class="px-6 py-2 hover:bg-blue-800 cursor-pointer"
+    >
+      <a>Analytics</a>
+    </li>
+  </ul>
+  <div class="flex justify-center py-4">
+    <button
+      class="bg-white text-blue-900 font-semibold px-6 py-2 rounded-full"
+      (click)="toggleCollapse()"
+    >
+      <ng-container *ngIf="!isCollapsed">Collapse</ng-container>
+      <ng-container *ngIf="isCollapsed">Expand</ng-container>
+    </button>
+  </div>
+  <ul class="flex-grow" *ngIf="isCollapsed">
+    <li class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a routerLink="/">
+        <i class="fa fa-home"></i>
+      </a>
+    </li>
+    <li class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a routerLink="/transactions">
+        <i class="fa fa-exchange"></i>
+      </a>
+    </li>
+    <li class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a routerLink="/budgets">
+        <i class="fa fa-dollar"></i>
+      </a>
+    </li>
+    <li class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a routerLink="/goals">
+        <i class="fa fa-bullseye"></i>
+      </a>
+    </li>
+    <li class="px-6 py-2 hover:bg-blue-800 cursor-pointer">
+      <a routerLink="/settings">
+        <i class="fa fa-cog"></i>
+      </a>
+    </li>
+  </ul>
+</div>

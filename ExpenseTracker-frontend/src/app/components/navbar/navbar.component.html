@@ -1,0 +1,41 @@
+<nav class="bg-gray-900 py-6 px-6 flex items-center justify-between">
+  <div class="flex items-center">
+    <a
+      routerLink="/"
+      class="text-green-500 text-[30px] font-bold animate-bounce"
+    >
+      SpendWise
+    </a>
+  </div>
+  <div class="flex items-center">
+    <button
+      routerLink="/new"
+      class="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 mr-4"
+    >
+      New Transaction
+    </button>
+    <ng-container *ngIf="!isAuthenticated()">
+      <button routerLink="/login" class="text-gray-400 hover:text-white">
+        Log in
+      </button>
+      <button
+        routerLink="/register"
+        class="ml-4 0 text-gray-400 py-2 px-4 hover:text-white"
+      >
+        Register
+      </button>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated()">
+      <i class="text-yellow-400 mr-3 fa fa-user"></i>
+      <button class="text-gray-400 hover:text-white">
+        {{ userDetails?.userName }}
+      </button>
+      <button
+        (click)="logOut()"
+        class="ml-4 0 text-gray-400 py-2 px-4 hover:text-white"
+      >
+        Log Out
+      </button>
+    </ng-container>
+  </div>
+</nav>

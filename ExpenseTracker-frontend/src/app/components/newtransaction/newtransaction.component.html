@@ -1,0 +1,166 @@
+<div class="px-4 mx-auto my-8">
+  <h1 class="text-3xl font-bold mb-10">Create New Transaction</h1>
+  <form
+    [formGroup]="transactionForm"
+    (ngSubmit)="onSubmit(transactionForm.value)"
+  >
+    <div class="flex flex-col text-2xl mb-8">
+      <span class="mr-2 font-bold text-gray-700">Type:</span>
+      <div class="flex items-center">
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="earn"
+            name="type"
+            formControlName="type"
+          />
+          <span class="ml-2">Earn</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="spend"
+            name="type"
+            formControlName="type"
+          />
+          <span class="ml-2">Spend</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="text-2xl flex flex-wrap mb-8">
+      <label class="block text-gray-700 font-bold mb-2" for="description">
+        Description
+      </label>
+      <textarea
+        type="text"
+        id="description"
+        class="w-full px-3 py-2 border rounded-lg"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div class="text-2xl flex flex-wrap mb-8">
+      <div class="w-full md:w-1/3 pr-2">
+        <label class="block text-gray-700 font-bold mb-2" for="amount">
+          Amount
+        </label>
+        <input
+          type="number"
+          id="amount"
+          class="w-full px-3 py-2 border rounded-lg"
+          formControlName="amount"
+        />
+      </div>
+      <div class="w-full md:w-1/3 pl-2 pr-2">
+        <label class="block text-gray-700 font-bold mb-2" for="transactionDate">
+          Transaction Date
+        </label>
+        <input
+          id="transactionDate"
+          type="date"
+          class="w-full px-3 py-2 border rounded-lg"
+          formControlName="transactionDate"
+        />
+      </div>
+      <div class="w-full md:w-1/3 pl-2">
+        <label class="block text-gray-700 font-bold mb-2" for="transactionTime">
+          Transaction Time
+        </label>
+        <input
+          id="transactionTime"
+          type="time"
+          class="w-full px-3 py-2 border rounded-lg"
+          formControlName="transactionTime"
+        />
+      </div>
+    </div>
+
+    <div class="text-2xl mb-8 flex flex-col">
+      <span class="mr-2 text-gray-700 font-bold">Category:</span>
+      <div class="flex flex-wrap">
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="food"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Food</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="transport"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Transport</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="entertainment"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Entertainment</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="shopping"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Shopping</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input
+            type="radio"
+            class="form-radio"
+            value="utilities"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Utilities</span>
+        </label>
+        <label class="inline-flex items-center ml-5">
+          <input
+            type="radio"
+            class="form-radio"
+            value="housing"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Housing</span>
+        </label>
+        <label class="inline-flex items-center ml-5">
+          <input
+            type="radio"
+            class="form-radio"
+            value="other"
+            name="category"
+            formControlName="category"
+          />
+          <span class="ml-2">Other</span>
+        </label>
+      </div>
+    </div>
+    <div class="flex justify-center items-center">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-2xl"
+        type="submit"
+        [disabled]="transactionForm.invalid"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+</div>
