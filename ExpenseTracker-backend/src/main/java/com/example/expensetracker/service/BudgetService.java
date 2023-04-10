@@ -16,11 +16,21 @@ public class BudgetService {
     public Optional<Budget> getBudgetByCategory(String category){
         return budgetRepository.findBudgetByCategory(category);
     }
+    public Budget findBudgetById(Long id){
+        Optional<Budget> budgetOptional = budgetRepository.findById(id);
+        return budgetOptional.orElse(null);
+    }
     public SpendCategory getAllBudgetsByUserId(Long id){
         return budgetRepository.findCategories(id);
     }
     public Budget addBudget(Budget budget){
         return budgetRepository.save(budget);
     }
-    public Budget deleteBudget()
+
+    public Budget updateBudget(Budget budget){
+        return budgetRepository.save(budget);
+    }
+    public void deleteBudget(Long id){
+        budgetRepository.deleteById(id);
+    }
 }

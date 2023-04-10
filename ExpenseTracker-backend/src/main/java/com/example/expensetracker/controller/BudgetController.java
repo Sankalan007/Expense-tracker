@@ -27,4 +27,23 @@ public class BudgetController {
         Budget newBudget = budgetService.addBudget(budget);
         return new ResponseEntity<>(newBudget, HttpStatus.CREATED);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Budget> updateBudget(@PathVariable("id") Long id, @RequestBody Budget budget){
+        Budget existingBudget = budgetService.findBudgetById(id);
+        if (existingBudget == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        existingBudget.setUserId(budget.getUserId());
+        existingBudget.setCategory(budget.getCategory());
+        existingBudget.setAmount(budget.getAmount());
+        Budget updatedBudget = budgetService.updateBudget(existingBudget);
+        return new ResponseEntity<>(updatedBudget, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteBudget(@PathVariable("id") Long id){
+        budgetService.deleteBudget(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
