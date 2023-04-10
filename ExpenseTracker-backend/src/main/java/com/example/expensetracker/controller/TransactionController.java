@@ -2,6 +2,7 @@ package com.example.expensetracker.controller;
 
 import com.example.expensetracker.model.PresetAverages;
 import com.example.expensetracker.model.PresetTransactions;
+import com.example.expensetracker.model.SpendCategory;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.TransactionService;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,12 @@ public class TransactionController {
         List<Transaction> transactions = transactionService.findAllTransactionsByUserId(id);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
+    @Transactional
+    @GetMapping("/all/created-desc/{id}")
+    public ResponseEntity<List<Transaction>> getAllTransactionsByUserIdCreatedDesc(@PathVariable("id") Long id){
+        List<Transaction> transactions = transactionService.findAllTransactionsByUserIdCreatedDesc(id);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
     @GetMapping("/preset-transactions/{userId}/{date}")
     public ResponseEntity<PresetTransactions> getPresetTransactions(@PathVariable Long userId, @PathVariable String date) {
         PresetTransactions presetTransactions = transactionService.getPresetTransactions(userId, date);
@@ -37,10 +44,61 @@ public class TransactionController {
     }
 
     @Transactional
-    @GetMapping("/transactions-between/{from}/{to}/{userId}")
-    public ResponseEntity<List<Transaction>> getAllTransactionsBetweenDates(@PathVariable("userId") Long userId ,@PathVariable("from") String from, @PathVariable("to") String to){
+    @GetMapping("/filter/transactions-between/{from}/{to}/{userId}")
+    public ResponseEntity<List<Transaction>> getAllTransactionsBetweenDates(@PathVariable("userId") Long userId, @PathVariable("from") String from, @PathVariable("to") String to){
         List<Transaction> transactions = transactionService.getTransactionsBetweenDates(userId, from, to);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+    @Transactional
+    @GetMapping("/filter/transactions-between-desc/{from}/{to}/{userId}")
+    public ResponseEntity<List<Transaction>> getAllTransactionsBetweenDatesDesc(@PathVariable("userId") Long userId, @PathVariable("from") String from, @PathVariable("to") String to){
+        List<Transaction> transactions = transactionService.getTransactionsBetweenDatesDesc(userId, from, to);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/filter/current-day/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentDay(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentDay(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+    @Transactional
+    @GetMapping("/filter/current-month/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentMonth(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentMonth(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/filter/current-year/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentYear(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentYear(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+    @Transactional
+    @GetMapping("/filter/current-day-desc/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentDayDesc(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentDayDesc(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+    @Transactional
+    @GetMapping("/filter/current-month-desc/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentMonthDesc(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentMonthDesc(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/filter/current-year-desc/{date}/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsOfCurrentYearDesc(@PathVariable("userId") Long userId, @PathVariable("date") String date ){
+        List<Transaction> transactions = transactionService.getTransactionsOfCurrentYearDesc(userId, date);
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/category/month/{userId}/{date}")
+    public ResponseEntity<SpendCategory> getAmountByCategory(@PathVariable("userId") Long userId, @PathVariable("date") String date){
+        SpendCategory spendCategory = transactionService.getAmountByCategory(userId, date);
+        return new ResponseEntity<>(spendCategory, HttpStatus.OK);
     }
 
 

@@ -1,5 +1,108 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-gray-800 mb-4">Transactions</h1>
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">Filter</h1>
+
+  <div class="flex mb-4">
+    <label class="mr-4">
+      <input
+        type="radio"
+        name="filterType"
+        value="preset"
+        [(ngModel)]="filterType"
+      />
+      Preset
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="filterType"
+        value="custom"
+        [(ngModel)]="filterType"
+      />
+      Custom
+    </label>
+  </div>
+
+  <div *ngIf="filterType === 'preset'" class="mb-4">
+    <label class="mr-4">
+      <input
+        type="radio"
+        name="presetFilter"
+        value="daily"
+        [(ngModel)]="presetFilter"
+        (change)="resetDailyFilters()"
+      />
+      Daily
+    </label>
+    <label class="mr-4">
+      <input
+        type="radio"
+        name="presetFilter"
+        value="monthly"
+        [(ngModel)]="presetFilter"
+      />
+      Monthly
+    </label>
+    <label class="mr-4">
+      <input
+        type="radio"
+        name="presetFilter"
+        value="annual"
+        [(ngModel)]="presetFilter"
+      />
+      Annual
+    </label>
+    <label class="mr-4">
+      <input
+        type="radio"
+        name="presetFilter"
+        value="all"
+        [(ngModel)]="presetFilter"
+      />
+      All Time
+    </label>
+  </div>
+
+  <div *ngIf="filterType === 'custom'" class="mb-4">
+    <div class="flex mb-2">
+      <label for="startDate" class="mr-2">Start Date:</label>
+      <input
+        type="date"
+        id="startDate"
+        name="startDate"
+        [(ngModel)]="startDate"
+      />
+    </div>
+    <div class="flex mb-2">
+      <label for="endDate" class="mr-2">End Date:</label>
+      <input
+        type="date"
+        id="endDate"
+        name="endDate"
+        [(ngModel)]="endDate"
+        [disabled]="!startDate"
+      />
+    </div>
+  </div>
+
+  <div class="flex mb-4">
+    <label class="mr-4">
+      <input type="radio" name="sortOrder" value="asc" [(ngModel)]="order" />
+      Ascending
+    </label>
+    <label>
+      <input type="radio" name="sortOrder" value="desc" [(ngModel)]="order" />
+      Descending
+    </label>
+  </div>
+
+  <button
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+    [disabled]="!applyButtonDisabled()"
+    (click)="applyFilters()"
+  >
+    Apply
+  </button>
 
   <table
     class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden"
@@ -10,6 +113,11 @@
           class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
         >
           Date
+        </th>
+        <th
+          class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Time
         </th>
         <th
           class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
@@ -32,6 +140,9 @@
       <tr class="bg-gray-50">
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
           {{ transaction.transactionDate }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+          {{ formatTime(transaction.transactionTime) }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
           {{ transaction.description }}

@@ -1,10 +1,10 @@
 export default interface Transaction {
   id: number | null;
   userId: number | null;
-  type: String;
-  description: String;
+  type: string;
+  description: string;
   amount: number;
-  transactionTime: String;
-  transactionDate: String;
-  category: String;
+  transactionTime: string;
+  transactionDate: string;
+  category: string;
 }

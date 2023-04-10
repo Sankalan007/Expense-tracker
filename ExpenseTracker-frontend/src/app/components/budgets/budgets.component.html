@@ -1,5 +1,8 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-gray-800 mb-4">Budgets</h1>
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">
+    Set your monthly budgets
+  </h2>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div
@@ -7,12 +10,42 @@
     >
       <div>
         <h2 class="text-lg font-bold mb-2">Food</h2>
-        <p class="text-gray-500 mb-2">Spent: $200.00</p>
-        <p class="text-gray-500">Budget: $500.00</p>
-      </div>
-      <div class="mt-4">
-        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-          <div class="h-2 bg-green-500 rounded-full" style="width: 40%"></div>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.food | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.food">
+          <p class="text-gray-500">
+            Budget: {{ budgets.food | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="(categoryDivision.food / budgets.food) * 100"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.food">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="food-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="food-budget-input"
+            [(ngModel)]="newBudgets.food"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Food', newBudgets.food)"
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
@@ -21,16 +54,45 @@
       class="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col justify-between"
     >
       <div>
-        <h2 class="text-lg font-bold mb-2">Transportation</h2>
-        <p class="text-gray-500 mb-2">Spent: $50.00</p>
-        <p class="text-gray-500">Budget: $150.00</p>
-      </div>
-      <div class="mt-4">
-        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-          <div
-            class="h-2 bg-green-500 rounded-full"
-            style="width: 33.33%"
-          ></div>
+        <h2 class="text-lg font-bold mb-2">Transport</h2>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.transport | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.transport">
+          <p class="text-gray-500">
+            Budget: {{ budgets.transport | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="
+                  (categoryDivision.transport / budgets.transport) * 100
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.transport">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="transport-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="transport-budget-input"
+            [(ngModel)]="newBudgets.transport"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Transport', newBudgets.transport)"
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
@@ -40,12 +102,138 @@
     >
       <div>
         <h2 class="text-lg font-bold mb-2">Entertainment</h2>
-        <p class="text-gray-500 mb-2">Spent: $100.00</p>
-        <p class="text-gray-500">Budget: $200.00</p>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.entertainment | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.entertainment">
+          <p class="text-gray-500">
+            Budget: {{ budgets.entertainment | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="
+                  (categoryDivision.entertainment / budgets.entertainment) * 100
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.entertainment">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="food-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="food-budget-input"
+            [(ngModel)]="newBudgets.entertainment"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Entertainment', newBudgets.entertainment)"
+          >
+            Create
+          </button>
+        </div>
       </div>
-      <div class="mt-4">
-        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-          <div class="h-2 bg-green-500 rounded-full" style="width: 50%"></div>
+    </div>
+
+    <div
+      class="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-lg font-bold mb-2">Shopping</h2>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.shopping | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.shopping">
+          <p class="text-gray-500">
+            Budget: {{ budgets.shopping | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="
+                  (categoryDivision.shopping / budgets.shopping) * 100
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.shopping">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="shopping-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="shopping-budget-input"
+            [(ngModel)]="newBudgets.shopping"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Shopping', newBudgets.shopping)"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-lg font-bold mb-2">Utilities</h2>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.utilities | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.utilities">
+          <p class="text-gray-500">
+            Budget: {{ budgets.utilities | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="
+                  (categoryDivision.utilities / budgets.utilities) * 100
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.utilities">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="utilities-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="utilities-budget-input"
+            [(ngModel)]="newBudgets.utilities"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Utilities', newBudgets.utilities)"
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
@@ -55,15 +243,89 @@
     >
       <div>
         <h2 class="text-lg font-bold mb-2">Housing</h2>
-        <p class="text-gray-500 mb-2">Spent: $1000.00</p>
-        <p class="text-gray-500">Budget: $1500.00</p>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.housing | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.housing">
+          <p class="text-gray-500">
+            Budget: {{ budgets.housing | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="
+                  (categoryDivision.housing / budgets.housing) * 100
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.housing">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="housing-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="housing-budget-input"
+            [(ngModel)]="newBudgets.housing"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Housing', newBudgets.housing)"
+          >
+            Create
+          </button>
+        </div>
       </div>
-      <div class="mt-4">
-        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-          <div
-            class="h-2 bg-green-500 rounded-full"
-            style="width: 66.67%"
-          ></div>
+    </div>
+
+    <div
+      class="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-lg font-bold mb-2">Other</h2>
+        <p class="text-gray-500 mb-2">
+          Spent: {{ categoryDivision.other | currency : "INR" }}
+        </p>
+
+        <div *ngIf="budgets?.other">
+          <p class="text-gray-500">
+            Budget: {{ budgets.other | currency : "INR" }}
+          </p>
+          <div class="mt-4">
+            <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-2 bg-green-500 rounded-full"
+                [style.width.%]="(categoryDivision.other / budgets.other) * 100"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!budgets?.other">
+          <label
+            class="block text-gray-700 font-bold mb-2"
+            for="other-budget-input"
+            >Set Budget:</label
+          >
+          <input
+            class="w-full border border-gray-400 p-2 mb-2"
+            type="number"
+            id="other-budget-input"
+            [(ngModel)]="newBudgets.other"
+          />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="addBudget('Other', newBudgets.other)"
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
