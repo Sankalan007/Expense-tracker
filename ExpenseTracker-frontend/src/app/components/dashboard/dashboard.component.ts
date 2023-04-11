@@ -1,8 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Chart } from 'chart.js';
 import PresetAverages from 'src/app/model/PresetAverages';
 import PresetTransactions from 'src/app/model/PresetTransaction';
+import { SpendCategories } from 'src/app/model/SpendCategories';
 import Transaction from 'src/app/model/Transaction';
 import User from 'src/app/model/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -14,12 +20,21 @@ import { TransactionService } from 'src/app/services/transaction/transaction.ser
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   presetTransactions!: PresetTransactions;
   presetAverages!: PresetAverages;
   userDetails!: User;
   userDetailsSet = false;
   transactions!: Transaction[];
+  categories: SpendCategories = {
+    food: 0,
+    transport: 0,
+    entertainment: 0,
+    shopping: 0,
+    utilities: 0,
+    housing: 0,
+    other: 0,
+  };
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
@@ -35,45 +50,40 @@ export class DashboardComponent implements OnInit {
     this.getPresetTransactions();
     this.getPresetAverages();
     this.getFewTransactions();
+    this.getMonthlyCategories();
+  }
+
+  ngAfterViewInit(): void {
     this.RenderChart();
+  }
+
+  generateRandomColors(numColors: number) {
+    const colors = [];
+    for (let i = 0; i < numColors; i++) {
+      const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+        Math.random() * 256
+      )}, ${Math.floor(Math.random() * 256)}, 0.2)`;
+      colors.push(color);
+    }
+    return colors;
   }
 
   RenderChart() {
     const ctx = document.getElementById('PieChart');
+    const categoryLabels = Object.keys(this.categories);
+    const categoriesData = Object.values(this.categories);
+    // const data = categoriesArray.slice(1);
+
     const myChart = new Chart('pie-chart', {
       type: 'doughnut',
       data: {
-        labels: [
-          'Food',
-          'Transport',
-          'Entertainment',
-          'Shopping',
-          'Utilities',
-          'Housing',
-          'Other',
-        ],
+        labels: categoryLabels,
         datasets: [
           {
-            label: '# of votes',
-            data: [12, 19, 3, 5, 2, 3, 7],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(235, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(189, 25, 52, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(235, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(189, 25, 52, 1)',
-            ],
+            label: 'monthly spend categories',
+            data: categoriesData,
+            backgroundColor: this.generateRandomColors(categoriesData.length),
+            borderColor: ['rgba(255, 99, 132, 1)'],
             borderWidth: 1,
           },
         ],
@@ -92,6 +102,23 @@ export class DashboardComponent implements OnInit {
       hour = 12;
     }
     return `${hour}:${minutes} ${suffix}`;
+  }
+
+  getMonthlyCategories() {
+    const today = new Date();
+    const date = new Date(today.getTime() + 5.5 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+    this.transactionService
+      .getMonthlyCategories(this.userDetails.id, date)
+      .subscribe(
+        (res: SpendCategories) => {
+          this.categories = res;
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
   }
 
   getPresetTransactions() {
