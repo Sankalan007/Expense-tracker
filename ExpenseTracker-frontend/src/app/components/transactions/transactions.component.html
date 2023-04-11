@@ -134,6 +134,11 @@
         >
           Amount
         </th>
+        <th
+          class="pl-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Action
+        </th>
       </tr>
     </thead>
     <tbody *ngFor="let transaction of transactions">
@@ -158,6 +163,18 @@
           }"
         >
           {{ transaction.amount | currency : "INR" }}
+        </td>
+        <td class="pl-6 py-4 whitespace-nowrap text-sm text-left font-bold">
+          <button class="mr-8 text-blue-500 hover:text-blue-700" title="Update">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            (click)="deleteTransaction(transaction.id)"
+            class="text-red-500 hover:text-red-700"
+            title="Delete"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
         </td>
       </tr>
     </tbody>

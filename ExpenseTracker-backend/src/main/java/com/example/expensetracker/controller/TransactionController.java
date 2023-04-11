@@ -1,9 +1,6 @@
 package com.example.expensetracker.controller;
 
-import com.example.expensetracker.model.PresetAverages;
-import com.example.expensetracker.model.PresetTransactions;
-import com.example.expensetracker.model.SpendCategory;
-import com.example.expensetracker.model.Transaction;
+import com.example.expensetracker.model.*;
 import com.example.expensetracker.service.TransactionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -106,5 +103,29 @@ public class TransactionController {
     public ResponseEntity<Transaction> addNewTransaction(@RequestBody Transaction transaction){
         Transaction newTransaction = transactionService.addTransaction(transaction);
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable("id") Long id, @RequestBody Transaction transaction){
+        Transaction existingTransaction = transactionService.findTransactionById(id);
+        if (existingTransaction == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        existingTransaction.setUserId(transaction.getUserId());
+        existingTransaction.setType(transaction.getType());
+        existingTransaction.setDescription(transaction.getDescription());
+        existingTransaction.setAmount(transaction.getAmount());
+        existingTransaction.setTransactionDate(transaction.getTransactionDate());
+        existingTransaction.setTransactionTime(transaction.getTransactionTime());
+        existingTransaction.setCategory(transaction.getCategory());
+
+        Transaction updatedBudget = transactionService.updateTransaction(existingTransaction);
+        return new ResponseEntity<>(updatedBudget, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteTransaction(@PathVariable("id") Long id){
+        transactionService.deleteTransaction(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

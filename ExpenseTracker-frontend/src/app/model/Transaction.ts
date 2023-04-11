@@ -1,5 +1,5 @@
 export default interface Transaction {
-  id: number | null;
+  id: number;
   userId: number | null;
   type: string;
   description: string;

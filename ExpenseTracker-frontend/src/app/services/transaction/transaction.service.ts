@@ -27,6 +27,20 @@ export class TransactionService {
     return this.http.post<Transaction>(`${this.baseUrl}/add`, transaction);
   }
 
+  updateTransaction(
+    transaction: Transaction,
+    transactionId: number
+  ): Observable<Transaction> {
+    return this.http.put<Transaction>(
+      `${this.baseUrl}/update/${transactionId}`,
+      transaction
+    );
+  }
+
+  deleteTransaction(transactionId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${transactionId}`);
+  }
+
   getPresetTransactions(
     userId: number,
     date: string

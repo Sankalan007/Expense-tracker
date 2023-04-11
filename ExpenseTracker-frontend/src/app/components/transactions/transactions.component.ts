@@ -167,6 +167,17 @@ export class TransactionsComponent implements OnInit {
       );
   }
 
+  deleteTransaction(transactionId: number) {
+    this.transactionService.deleteTransaction(transactionId).subscribe(
+      (res: void) => {
+        this.getAllTransactions();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   getAllTransactionsByAsc() {
     this.transactionService.findAllTransactions(this.userDetails.id).subscribe(
       (res) => {
