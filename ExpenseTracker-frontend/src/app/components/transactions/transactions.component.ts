@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Transaction from 'src/app/model/Transaction';
 import User from 'src/app/model/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -22,11 +23,19 @@ export class TransactionsComponent implements OnInit {
   presetFilter!: string;
 
   showAlert: boolean = false;
+  isUpdateClicked: boolean = false;
+  isSpendSelected: boolean = false;
+  isEarnSelected: boolean = false;
+
+  updateClicked: boolean[] = new Array(this.transactions.length).fill(true);
+
+  updateTransactionForm!: FormGroup;
 
   constructor(
     private transactionService: TransactionService,
     private sharedDataService: ShareddataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +51,12 @@ export class TransactionsComponent implements OnInit {
       }
     );
     this.getAllTransactions();
+    this.updateTransactionForm = this.fb.group({
+      type: ['', Validators.required],
+      description: ['', [Validators.required]],
+      amount: ['', [Validators.required, Validators.min(0.01)]],
+      category: ['', Validators.required],
+    });
   }
 
   resetFilters() {
@@ -176,6 +191,29 @@ export class TransactionsComponent implements OnInit {
         alert(error.message);
       }
     );
+  }
+
+  updateTransaction(
+    transaction: Transaction,
+    transactionDate: string,
+    transactionTime: string,
+    transactionId: number
+  ) {
+    document.getElementById('updateButton')?.click();
+    transaction.transactionDate = transactionDate;
+    transaction.transactionTime = transactionTime;
+    transaction.userId = this.userDetails.id;
+    this.transactionService
+      .updateTransaction(transaction, transactionId)
+      .subscribe(
+        (res: Transaction) => {
+          this.getAllTransactions();
+          console.log('update successful');
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
   }
 
   getAllTransactionsByAsc() {
